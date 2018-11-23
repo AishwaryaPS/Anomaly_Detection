@@ -19,7 +19,7 @@ pip3 install ann_visualizer
 
 7] All tests were carried out in Anaconda on a MacOS. So there are chances of discrepencies.
 
-8] Execute the file names IDS.py. The other models are called as  a part of this file. This file is the culmination point.
+8] Execute the file names IDS.py. The other models are called as  a part of this file. This file is the culmination point. The entire model takes approxiamtely 40 minutes to execute.
 
 9] There is another file of Misuse Clustering called UnknownAttacksDetection.py which will run on a standalone basis having a classification for attacks not known in the training stage. This file needs to be executed seperately.
 
