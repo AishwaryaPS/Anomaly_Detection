@@ -3,6 +3,8 @@
 This is a hybrid model for Intrusion Detection which uses both Anomaly Detection models and Misuse Detection models.
 A few intructions to be followed to set up an execution environment:
 
+Preferred execution environment: IDE like Spyder or Jupyter. R code can be executed in RStudio
+
 1] pydot and graphviz libraries need to be installed for visualisation of the decision trees in the Random Forest Model. Either pip install or conda install can be used to do the same.
 
 2] For Windows, graphviz needs to be added to the PATH environment variable using the command:
