@@ -40,4 +40,4 @@ new <- rbind(strat_sample_u, new)
 
 table(new$label)
 
-write.table(new,"Desktop/5th Sem Project/Data Analytics/Final3.csv",row.names=FALSE, na="", sep = ",")
+write.table(new,"Final3.csv",row.names=FALSE, na="", sep = ",")
