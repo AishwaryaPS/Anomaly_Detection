@@ -4,7 +4,7 @@ library(dplyr)
 library(moments)
 library(caret)
 
-kdd_10_rd <- read_csv("Desktop/5th Sem Project/Data Analytics/kdd_10_rd.csv")
+kdd_10_rd <- read_csv("kdd_10_rd.csv")
 
 kdd_10_rd$label <- ifelse(kdd_10_rd$result %in% c("ftp_write.", "guess_passwd.", "imap.", "multihop.", "phf.", "spy.", "warezclient.", "warezmaster."),"rtl",
                           ifelse(kdd_10_rd$result %in% c("back.","land.","neptune.","pod.","smurf.","teardrop."),"dos",
