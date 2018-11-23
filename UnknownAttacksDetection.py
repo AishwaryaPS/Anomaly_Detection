@@ -8,7 +8,7 @@ from sklearn.model_selection import StratifiedKFold
 
 #Reading the file
 
-kdd_10 = pd.read_csv("C:\\Users\\sunri\\Downloads\\study material\\sem 5\\Data Analytics\\Project\\Final3.csv")
+kdd_10 = pd.read_csv("Final3.csv")
 
 
 # In[2]:
@@ -102,7 +102,7 @@ print(pd.DataFrame(distMatrix))
 print("Based on the above distance matrix of distances between centroids, and some trial and error, 18 seems to be an optimal threshold value to classify something as part of none of the aforementioned clusters.")
 
 
-# In[12]:
+# In[38]:
 
 #Defining Function to find the closest class cluster for each row in the test data
 def closestCluster(x):
@@ -121,6 +121,8 @@ def closestCluster(x):
     else:
         return ["new cluster",distances]
 
+#calculating the class per row and putting into the results array
+
 distList=[]
 results=[]
 newClusterCount=[]
@@ -133,121 +135,47 @@ for i in range(len(test)):
         results.append("Unknown Intrusion")
     else:
         results.append(val[0])
-    distList.append([val[1]])
-        
-  
-print(results)
+    distList.append([val[1]])      
+
+#Count per cluster printing:
+
+answerClustersCount= pd.DataFrame(pd.DataFrame({'result':results}).groupby('result')['result'].count())
+testClustersCount= pd.DataFrame(testClustersCount)
+print("\nThe count per cluster as we classified: \n",answerClustersCount,"\nThe count per cluster as in the Test datasset: \n",testClustersCount)
 
 
-# In[33]:
+# In[42]:
 
 mismatched=[]
 for i in range(len(test)):
     if results[i]!= test['result'].iloc[i]:
         mismatched.append(i)
 print("\nTotal Number of mismatched classes: ",len(mismatched))
-
-answerClustersCount= pd.DataFrame({'result':results}).groupby('result')['result'].count()
-type(answerClustersCount)
+print('\nOut of a total:', len(test))
 
 
-# In[15]:
+# In[41]:
 
 from sklearn import metrics
 from sklearn.metrics import accuracy_score
-metrics.accuracy_score(test["result"], results)
+accuracy=metrics.accuracy_score(test["result"], results)
+print("The accuracy is : ",accuracy*100,"%",sep='')
 
 
-# In[13]:
+# In[53]:
 
-'''import numpy as np
-
-newClusterNeeded = pd.DataFrame(newClusterNeeded)
-print(newClusterNeeded)
-cost = np.zeros(5)
-#for i in range(len(newClusterNeeded)):
-#    for j in range(len(newClusterNeeded.columns)):
-#        newClusterNeeded.iloc[i,j]= round(newClusterNeeded.iloc[i,j],4)
-for n in range(2,5):
-    unknownCluster = KMeans(n_clusters=n, random_state=0).fit(newClusterNeeded)
-    print(unknownCluster.cluster_centers_)
-    cost[n] = unknownCluster.append(sum(np.min(cdist(newClusterNeeded, unknownCluster.cluster_centers_, 'euclidean'), axis=1)) / newClusterNeeded.shape[0])
- '''
-
-
-# In[193]:
-
-'''
-import matplotlib.pyplot as plt
-fig, ax = plt.subplots(1,1, figsize =(8,6))
-ax.plot(range(2,20),cost[2:20])
-ax.set_xlabel('k')
-ax.set_ylabel('MSE')
-plt.show()
-'''
-
-
-# In[221]:
-
-print(newClusterNeeded)
-
-
-# In[222]:
-
-p=21163
-print(results[p],distList[p],test['result'].iloc[p])
-
-
-# In[223]:
-
+unknownRows=[]
 for z in range(len(test['result'])):
     if test['result'].iloc[z] in classesAbsent:
-        print(z)
-
-
-# In[224]:
-
-unknowns=[]
-for z in range(len(results)):
-    if results[z] == "Unknown Intrusion":
-        unknowns.append(z)
-
-
-# In[225]:
-
-unknowns.index(23935)
-
-
-# In[226]:
-
-print(min(distList[21163][0].values()))
-print(results[23935])
-
-
-# In[227]:
-
-test['result'].iloc[19545]
-
-
-# In[228]:
+        unknownRows.append(z)
+print("The Indices of the rows that were unknown are: ", unknownRows)
 
 count=0
-for i in results:
-    if i== "Unknown Intrusion":
+for p in unknownRows:
+    print('The calculated class and the actual class for',p,': \n',results[p]," , ",test['result'].iloc[p])
+    if results[p]== "Unknown Intrusion" and test['result'].iloc[p] in classesAbsent:
         count+=1
-
-
-# In[ ]:
-
-
-
-
-# In[229]:
-
-count
-
-
-# In[ ]:
-
-
+print("Hence, ", count," out of ",len(unknownRows)," are unknown originally by the training dataset and were then correctly classified.",sep='')
+percent=(count/len(unknownRows))*100
+print("That is: ",percent,"%",sep='')
 
